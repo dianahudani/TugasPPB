@@ -50,7 +50,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         @Override
         public void onClick(View view) {
             switch(view.getId()){
-                case R.id.btnGo:sembunyikanKeyboard(view);
+                case R.id.btnGo:
+                    sembunyikanKeyboard(view);
                     gotoLokasi();
                     break;
                 case R.id.idCari:goCari(); break;
