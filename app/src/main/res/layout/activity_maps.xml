@@ -18,7 +18,8 @@
                 android:layout_width="150dp"
                 android:layout_gravity="center"
                 android:layout_height="wrap_content"
-                android:autofillHints="latitude" />
+                android:autofillHints="latitude"
+                android:inputType="numberDecimal"/>
 
             <EditText
                 android:id="@+id/lng"
@@ -26,7 +27,8 @@
                 android:layout_width="150dp"
                 android:layout_gravity="center"
                 android:layout_height="wrap_content"
-                android:autofillHints="longitude" />
+                android:autofillHints="longitude"
+                android:inputType="numberDecimal"/>
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -43,7 +45,8 @@
             android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:autofillHints="zoom" />
+            android:autofillHints="zoom"
+            android:inputType="numberDecimal"/>
 
         <Button
             android:id="@+id/btnGo"
