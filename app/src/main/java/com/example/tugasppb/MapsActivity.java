@@ -2,10 +2,16 @@ package com.example.tugasppb;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +19,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,6 +37,8 @@ import static com.google.android.gms.maps.CameraUpdateFactory.newLatLngZoom;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private LocationManager lm;
+    private lokasiListener ll;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -72,6 +81,46 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Button cari = (Button) findViewById(R.id.btnCari);
         cari.setOnClickListener(op);
 
+        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        ll = new lokasiListener();
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                        PackageManager.PERMISSION_GRANTED){
+            return;
+        }
+
+        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 50, 200, ll);
+    }
+
+    private class lokasiListener implements LocationListener{
+        private TextView txtLat, txtLong;
+        @Override
+        public void onLocationChanged(Location location) {
+            txtLat = (TextView) findViewById(R.id.lat);
+            txtLong = (TextView) findViewById(R.id.lng);
+
+            txtLat.setText(String.valueOf(location.getLatitude()));
+            txtLong.setText(String.valueOf(location.getLongitude()));
+            Toast.makeText(getBaseContext(), "GPS Capture:", Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+
+        }
     }
 
 
@@ -111,6 +160,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
     };
+
 
 
     private void gotoLokasi() {
@@ -172,5 +222,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
     }
+
 }
 
